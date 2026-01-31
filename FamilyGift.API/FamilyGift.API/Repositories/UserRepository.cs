@@ -14,8 +14,6 @@ namespace FamilyGift.API.Repositories
 
         public async Task AddUser(User user)
         {
-            // Use try catch
-            // use automapper
             var newUser = new User
             {
                 Id = Guid.NewGuid(),

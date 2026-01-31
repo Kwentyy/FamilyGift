@@ -1,4 +1,5 @@
-﻿using FamilyGift.API.Models.Dtos.User;
+﻿using AutoMapper;
+using FamilyGift.API.Models.Dtos.User;
 using FamilyGift.API.Models.Entities;
 using FamilyGift.API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -10,8 +11,10 @@ namespace FamilyGift.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        public UserController(IUserRepository userRepository) {
+        private readonly IMapper _mapper;
+        public UserController(IUserRepository userRepository, IMapper mapper) {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
         [HttpGet]
         public IActionResult GetUsers()
@@ -31,11 +34,7 @@ namespace FamilyGift.API.Controllers
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDto createUserDto)
         {
             // use automapper
-            var user = new User
-            {
-                FirstName = createUserDto.FirstName,
-                LastName = createUserDto.LastName
-            };
+            var user = _mapper.Map<User>(createUserDto);
             await _userRepository.AddUser(user);
             // Logic to create a user
 

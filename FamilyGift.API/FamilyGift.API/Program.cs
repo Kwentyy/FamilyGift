@@ -1,4 +1,5 @@
 using FamilyGift.API.Data;
+using FamilyGift.API.Mappings;
 using FamilyGift.API.Repositories;
 using FamilyGift.API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -16,6 +16,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<FamilyGiftContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddAutoMapper(typeof (MappingProfile));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
